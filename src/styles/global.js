@@ -1,5 +1,7 @@
 import { injectGlobal } from "styled-components";
 
+import "rc-slider/assets/index.css";
+
 import "font-awesome/css/font-awesome.css";
 
 injectGlobal`
