@@ -1,6 +1,14 @@
 import React from "react";
 import Slider from "rc-slider";
-import { Container, Current, Volume, Progress, Controls } from "./style";
+import {
+  Container,
+  Current,
+  Volume,
+  Progress,
+  Controls,
+  Time,
+  ProgresSlider
+} from "./style";
 
 import VolumeIcon from "../../assets/images/volume.svg";
 import ShuffleIcon from "../../assets/images/shuffle.svg";
@@ -41,6 +49,17 @@ const Player = () => (
           <img src={RepeatIcon} alt="Repeat" />
         </button>
       </Controls>
+      <Time>
+        <span>0:40</span>
+        <ProgresSlider>
+          <Slider
+            railStyle={{ background: "#404040", borderRadius: 10 }}
+            trackStyle={{ background: "#1ed766" }}
+            handleStyle={{ border: 0 }}
+          />
+        </ProgresSlider>
+        <span>1:40</span>
+      </Time>
     </Progress>
     <Volume>
       <img src={VolumeIcon} alt="Volume" />

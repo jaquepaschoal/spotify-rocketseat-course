@@ -49,7 +49,24 @@ export const Controls = styled.div`
   button {
     background: transparent;
     border: 0;
+    margin: 0 15px;
   }
+`;
+
+export const Time = styled.div`
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+
+  span {
+    font-size: 11px;
+    color: #b3b3b3;
+  }
+`;
+
+export const ProgresSlider = styled.div`
+  width: 500px;
+  margin: 0 15px;
 `;
 
 export const Volume = styled.div`
