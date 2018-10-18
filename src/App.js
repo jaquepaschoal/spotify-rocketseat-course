@@ -1,4 +1,5 @@
 import React from "react";
+import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
 import Sidebar from "./components/Sidebar";
@@ -9,21 +10,26 @@ import { Wrapper, Container, Content } from "./styles/components";
 
 import Routes from "./routes";
 
+import store from "./store";
+
 import "./styles/global";
+import "./config/reactotron";
 
 const App = () => (
-  <BrowserRouter>
-    <Wrapper>
-      <Container>
-        <Sidebar />
-        <Content>
-          <Header />
-          <Routes />
-        </Content>
-      </Container>
-      <Player />
-    </Wrapper>
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <Wrapper>
+        <Container>
+          <Sidebar />
+          <Content>
+            <Header />
+            <Routes />
+          </Content>
+        </Container>
+        <Player />
+      </Wrapper>
+    </BrowserRouter>
+  </Provider>
 );
 
 export default App;
