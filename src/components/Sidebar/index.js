@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
+import Proptypes from "prop-types";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -9,6 +11,17 @@ import { Container, NewPlaylist, Nav } from "./style";
 import AddPlaylistIcon from "../../assets/images/add_playlist.svg";
 
 class Sidebar extends Component {
+  static Proptypes = {
+    getPlaylistsRequest: Proptypes.func.isRequired,
+    playlists: Proptypes.shape({
+      data: Proptypes.arrayOf(
+        Proptypes.shape({
+          id: Proptypes.number,
+          title: Proptypes.string
+        })
+      )
+    }).isRequired
+  };
   componentDidMount() {
     this.props.getPlaylistsRequest();
   }
@@ -18,7 +31,7 @@ class Sidebar extends Component {
         <div>
           <Nav main>
             <li>
-              <a href="">Navegar</a>
+              <Link to={"/"}>Navegar</Link>
             </li>
             <li>
               <a href="">Rádio</a>
@@ -61,9 +74,11 @@ class Sidebar extends Component {
             <li>
               <span>PLAYLISTS</span>
             </li>
-            <li>
-              <a href="">Melhores do rock</a>
-            </li>
+            {this.props.playlists.data.map(playlist => (
+              <li key={playlist.id}>
+                <Link to={`playlists/${playlist.id}`}>{playlist.title}</Link>
+              </li>
+            ))}
           </Nav>
         </div>
         <NewPlaylist>
