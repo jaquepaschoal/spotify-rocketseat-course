@@ -7,6 +7,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Creators as PlaylistsActions } from "../../store/ducks/playlists";
 
+import Loading from "../../components/Loading";
+
 class Browse extends Component {
   static Proptypes = {
     getPlaylistsRequest: Proptypes.func.isRequired,
@@ -18,7 +20,8 @@ class Browse extends Component {
           thumbnail: Proptypes.string,
           description: Proptypes.string
         })
-      )
+      ),
+      loading: Proptypes.bool
     }).isRequired
   };
   componentDidMount() {
@@ -27,7 +30,8 @@ class Browse extends Component {
   render() {
     return (
       <Container>
-        <Title>Navegar</Title>
+        <Title>Navegar {this.props.playlists.loading && <Loading />}</Title>
+
         <List>
           {this.props.playlists.data.map(playlist => (
             <Playlist to={`/playlits/${playlist.id}`}>
@@ -36,16 +40,6 @@ class Browse extends Component {
               <p>{playlist.description}</p>
             </Playlist>
           ))}
-          <Playlist to="/playlists/1">
-            <img
-              src="https://99designs-blog.imgix.net/blog/wp-content/uploads/2017/12/attachment_68585523.jpg?auto=format&q=60&fit=max&w=930"
-              alt="Playlist"
-            />
-            <strong>Rock dos bons</strong>
-            <p>
-              Relaxe enquanto você programa ouvindo apenas as melhores do rock!
-            </p>
-          </Playlist>
         </List>
       </Container>
     );
