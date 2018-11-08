@@ -101,11 +101,6 @@ class Playlist extends Component {
                     this.props.currentSong.id == song.id
                   }
                 >
-                  {console.log(
-                    this.props.currentSong &&
-                      this.props.currentSong.id === song.id
-                  )}
-
                   <td>
                     <img src={PlusIcon} alt="Adicionar" />
                   </td>

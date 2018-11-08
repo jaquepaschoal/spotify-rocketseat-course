@@ -22,8 +22,10 @@ import ForwardIcon from "../../assets/images/forward.svg";
 import RepeatIcon from "../../assets/images/repeat.svg";
 
 import { connect } from "react-redux";
+import { Creators as PlayerActions } from "../../store/ducks/player";
+import { bindActionCreators } from "redux";
 
-const Player = ({ player }) => (
+const Player = ({ player, play, pause }) => (
   <Container>
     {!!player.currentSong && (
       <Sound url={player.currentSong.file} playStatus={player.status} />
@@ -51,9 +53,15 @@ const Player = ({ player }) => (
         <button>
           <img src={BackwardIcon} alt="Backward" />
         </button>
-        <button>
-          <img src={PlayIcon} alt="Play" />
-        </button>
+        {!!player.currentSong && player.status === Sound.status.PLAYING ? (
+          <button onClick={pause}>
+            <img src={PauseIcon} alt="Pause" />
+          </button>
+        ) : (
+          <button onClick={play}>
+            <img src={PlayIcon} alt="Play" />
+          </button>
+        )}
         <button>
           <img src={ForwardIcon} alt="Forward" />
         </button>
@@ -91,14 +99,22 @@ Player.Proptypes = {
       file: Proptypes.string,
       thumbnail: Proptypes.string,
       title: Proptypes.string,
-      author: Proptypes.string,
+      author: Proptypes.string
     }),
     status: Proptypes.string
-  }).isRequired
+  }).isRequired,
+  play: Proptypes.func.isRequired,
+  pause: Proptypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   player: state.player
 });
 
-export default connect(mapStateToProps)(Player);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(PlayerActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Player);
