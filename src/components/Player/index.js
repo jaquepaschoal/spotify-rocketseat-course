@@ -25,10 +25,14 @@ import { connect } from "react-redux";
 import { Creators as PlayerActions } from "../../store/ducks/player";
 import { bindActionCreators } from "redux";
 
-const Player = ({ player, play, pause }) => (
+const Player = ({ player, play, pause, next, prev }) => (
   <Container>
     {!!player.currentSong && (
-      <Sound url={player.currentSong.file} playStatus={player.status} />
+      <Sound
+        url={player.currentSong.file}
+        playStatus={player.status}
+        onFinishedPlaying={next}
+      />
     )}
     <Current>
       {!!player.currentSong && (
@@ -50,7 +54,7 @@ const Player = ({ player, play, pause }) => (
         <button>
           <img src={ShuffleIcon} alt="Shuffle" />
         </button>
-        <button>
+        <button onClick={prev}>
           <img src={BackwardIcon} alt="Backward" />
         </button>
         {!!player.currentSong && player.status === Sound.status.PLAYING ? (
@@ -62,7 +66,7 @@ const Player = ({ player, play, pause }) => (
             <img src={PlayIcon} alt="Play" />
           </button>
         )}
-        <button>
+        <button onClick={next}>
           <img src={ForwardIcon} alt="Forward" />
         </button>
         <button>
@@ -104,7 +108,9 @@ Player.Proptypes = {
     status: Proptypes.string
   }).isRequired,
   play: Proptypes.func.isRequired,
-  pause: Proptypes.func.isRequired
+  pause: Proptypes.func.isRequired,
+  next: Proptypes.func.isRequired,
+  prev: Proptypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
