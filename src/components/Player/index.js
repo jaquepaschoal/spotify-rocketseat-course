@@ -25,13 +25,25 @@ import { connect } from "react-redux";
 import { Creators as PlayerActions } from "../../store/ducks/player";
 import { bindActionCreators } from "redux";
 
-const Player = ({ player, play, pause, next, prev }) => (
+const Player = ({
+  player,
+  play,
+  pause,
+  next,
+  prev,
+  playing,
+  position,
+  duration
+}) => (
   <Container>
     {!!player.currentSong && (
       <Sound
         url={player.currentSong.file}
         playStatus={player.status}
         onFinishedPlaying={next}
+        onPlaying={song => {
+          playing(song.position, song.duration);
+        }}
       />
     )}
     <Current>
@@ -74,7 +86,7 @@ const Player = ({ player, play, pause, next, prev }) => (
         </button>
       </Controls>
       <Time>
-        <span>0:40</span>
+        <span>{position}</span>
         <ProgresSlider>
           <Slider
             railStyle={{ background: "#404040", borderRadius: 10 }}
@@ -82,7 +94,7 @@ const Player = ({ player, play, pause, next, prev }) => (
             handleStyle={{ border: 0 }}
           />
         </ProgresSlider>
-        <span>1:40</span>
+        <span>{duration}</span>
       </Time>
     </Progress>
     <Volume>
@@ -110,11 +122,25 @@ Player.Proptypes = {
   play: Proptypes.func.isRequired,
   pause: Proptypes.func.isRequired,
   next: Proptypes.func.isRequired,
-  prev: Proptypes.func.isRequired
+  prev: Proptypes.func.isRequired,
+  playing: Proptypes.func.isRequired,
+  position: Proptypes.string.isRequired,
+  duration: Proptypes.string.isRequired
 };
 
+function msToTime(duration) {
+  let seconds = parseInt((duration / 1000) % 60, 10);
+  const minutes = parseInt((duration / (100 * 60)) % 60, 10);
+
+  seconds = seconds < 10 ? `0${seconds}` : seconds;
+
+  return `${minutes}:${seconds}`;
+}
+
 const mapStateToProps = state => ({
-  player: state.player
+  player: state.player,
+  position: msToTime(state.player.position),
+  duration: msToTime(state.player.duration)
 });
 
 const mapDispatchToProps = dispatch =>
